@@ -1,4 +1,4 @@
--- База данных популярного сервиса фильмов “Кинопоиск”
+-- Модель база данных популярного сервиса поиска и просмотра фильмов “Кинопоиск”
 
 CREATE DATABASE IF NOT EXISTS kinopoisk;
 
@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS photo;
 CREATE TABLE photo (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   filename VARCHAR(255) NOT NULL COMMENT 'Ссылка на фото',
-  size INT NOT NULL COMMENT 'Размер',
+  `size` INT NOT NULL COMMENT 'Размер',
   metadata JSON COMMENT 'Метаданые',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -63,7 +63,7 @@ CREATE TABLE profiles (
   UNIQUE KEY `link_vk` (`link_vk`)
 ) COMMENT 'Таблица профилей пользователей';
 
-desc profiles;
+DESC profiles;
 
 -- Таблица films содержит основную информацию о фильме, которая выдается 
 -- пользователю при просмотре списка фильмов.
@@ -74,7 +74,7 @@ CREATE TABLE films (
   name_ru VARCHAR(100) COMMENT 'Русское название',
   name_original VARCHAR(100) COMMENT 'Оригинальное название',
   photo_id INT UNSIGNED NOT NULL COMMENT 'ID фото профиля',
-  year DATE NOT NULL COMMENT 'Дата съемки',
+  `year` DATE NOT NULL COMMENT 'Дата съемки',
   country VARCHAR(120) NOT NULL COMMENT 'Страна производства',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -83,7 +83,7 @@ CREATE TABLE films (
   UNIQUE KEY `photo_id` (`photo_id`)  
 ) COMMENT 'Таблица фильмов';
 
-desc profiles;
+DESC films;
 
 -- Таблица films_profiles содержит дополнительную информацию о фильмах
 
@@ -92,7 +92,7 @@ CREATE TABLE films_profiles (
   film_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   link VARCHAR(255) COMMENT 'Ссылка на фильм',
   trailer_link VARCHAR(255) NOT NULL COMMENT 'Ссылка трейлер',
-  time TIME COMMENT 'Время',
+  `time` INT UNSIGNED NOT NULL COMMENT 'Время',
   price DECIMAL (11,2) COMMENT 'Цена за просмотр',
   description TEXT NOT NULL COMMENT 'Описание',
   tagline VARCHAR(255) COMMENT 'Слоган',
@@ -182,7 +182,7 @@ DROP TABLE IF EXISTS film_crews;
 CREATE TABLE film_crews (
   user_id INT UNSIGNED NOT NULL COMMENT 'ID пользователя',
   film_id INT UNSIGNED NOT NULL COMMENT 'ID фильма',
-  role ENUM ('producer', 'scenario', 'actor', 'operator', 'composer', 'painter'),
+  `role` ENUM ('producer', 'scenario', 'actor', 'operator', 'composer', 'painter'),
   FOREIGN KEY (`user_id`) REFERENCES users(`id`),
   FOREIGN KEY (`film_id`) REFERENCES films(`id`),
   UNIQUE KEY `user_id_film_id_role` (`user_id`, `film_id`, `role`)
